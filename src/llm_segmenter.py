@@ -90,11 +90,12 @@ class LLMSegmenter():
 
                         # Refined prompt to DeepSeek
                         prompt = f"""
-                        Segment the following text into argumentative discourse units (ADUs). Each ADU represents a distinct argument or claim within the text. Do not include explanations or thinking steps. Only provide the final list of argumentative discourse units as a 1D JSON array.
+                        Segment the following text into argumentative discourse units (ADUs). Each ADU represents a distinct argumentative claim or premise within the text. Do not include explanations or thinking steps. Only provide the final list of argumentative discourse units as a 1D JSON array. So no dictionary.
+                        If if the input text is already small segement, just return the original text without segmenting. 
 
-                        Input paragraph: {node_text}
+                        Input text: {node_text}
 
-                        Ensure that each segment is a complete argumentative claim, or premise, and divide the text accordingly into logical parts. Do not rephrase, or summarise, you have to segment the existing text as it is.
+                        Ensure that each segment is a complete argumentative claim, or premise. Do not rephrase, or summarise, you have to segment the existing text as it is. Do not also add any text other than what is provided.
                     
                         """
 
