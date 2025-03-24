@@ -2,6 +2,7 @@ import ollama
 import json
 from xaif_eval import xaif
 from itertools import combinations
+import re
 
 
 
@@ -99,12 +100,12 @@ class LLMSegmenter():
 
                         response = self.get_segments(prompt)
                         logging.info(f"xAIF data:  {response}, {response}")  
+                        response_cleaned = re.sub(r'<thinck>.*?</thinck>', '', response, flags=re.DOTALL)
     
                         try:
-                            segments = json.loads(response)  # Expecting JSON list
+                            segments = json.loads(response_cleaned)  # Expecting JSON list
                         except ValueError as e:
-                            segments = response.split("\n")
-                        segments = [seg.strip() for seg in segments if len(seg.strip()) > 0]
+                            segments = response_cleaned.split("\n")
                         if len(segments) > 1:							
                             xaif_obj.add_component("segment", node_id, segments)										
 
