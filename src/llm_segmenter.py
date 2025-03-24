@@ -22,7 +22,7 @@ from src.templates import SegmenterOutput
 logging.basicConfig(datefmt='%H:%M:%S',
                     level=logging.DEBUG)
 
-class Segmenter():
+class LLMSegmenter():
     def __init__(self,file_obj):
         self.file_obj = file_obj
         self.f_name = file_obj.filename
