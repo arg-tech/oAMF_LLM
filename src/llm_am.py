@@ -103,8 +103,8 @@ class LLMArgumentStructure:
                         checked_pairs.add(pair2)
                         prompt = f"""
                             Given the two argumentative texts:
-                            1. {pair1}
-                            2. {pair2}
+                            1. {prop1}
+                            2. {prop2}
                             
                             Classify their argument relationship as one of the following: 'Support' if one is support the other, 'Attack' if one attacks the other, 'Rephrase' if one rephrase the other, or 'None' if no argument relation exists.
                             Do not rephrase, or summarise, the existing text as it is. Do not also add any text other than what is provided.
