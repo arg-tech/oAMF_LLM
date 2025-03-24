@@ -2,7 +2,7 @@ import ollama
 import json
 from xaif_eval import xaif
 from itertools import combinations
-
+import re
 
 
 
@@ -94,29 +94,24 @@ class LLMSegmenter():
                         Input paragraph: {node_text}
 
                         Ensure that each segment is a complete argument, claim, or supporting point, and divide the text accordingly into logical parts. 
-                        
-
-                        # Example Input:
-                        "Climate change is a major threat to our planet. It leads to rising sea levels, extreme weather events, and loss of biodiversity. Governments must take action by reducing carbon emissions and transitioning to renewable energy. Individuals should also contribute by adopting sustainable practices in their daily lives."
-
-                        # Expected Output (this is just for reference)
-                        [
-                            "Climate change is a major threat to our planet.",
-                            "It leads to rising sea levels, extreme weather events, and loss of biodiversity.",
-                            "Governments must take action by reducing carbon emissions and transitioning to renewable energy.",
-                            "Individuals should also contribute by adopting sustainable practices in their daily lives."
-                        ]
+                    
                         """
 
 
 
+
                         response = self.get_segments(prompt)
-                        logging.info(f"xAIF data:  {response}, {response}")  
-    
+                        logging.info(f"Response data:  {response}, {response}")
+
+                        # Remove everything between <thinck> and </thinck>, including the tags themselves
+                        response_cleaned = re.sub(r'<think>.*?</think>', '', response, flags=re.DOTALL)
+
                         try:
-                            segments = json.loads(response)  # Expecting JSON list
+                            segments = json.loads(response_cleaned)  # Expecting JSON list
                         except ValueError as e:
-                            segments = response.split("\n")
+                            segments = response_cleaned.split("\n")
+
+
                         segments = [seg.strip() for seg in segments if len(seg.strip()) > 0]
                         if len(segments) > 1:							
                             xaif_obj.add_component("segment", node_id, segments)										
