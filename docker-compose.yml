@@ -1,8 +1,8 @@
 version: '3.8'
 
 services:
-  oAMF_LLM:
-    container_name: oAMF_LLM  
+  oamf_llm:
+    container_name: oamf_llm  
     build: .
     ports:
       - "5030:5030"
