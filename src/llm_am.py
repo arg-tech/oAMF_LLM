@@ -154,37 +154,10 @@ class LLMArgumentStructure:
             batch_pair_ids = pair_ids[i:i+batch_size]
             
             # Assuming `self.model.predict` can handle batches of inputs
-            predictions = self.model.predict(batch_pairs)
+            #predictions = self.model.predict(batch_pairs)
+            predictions = self.llm_model(batch_pairs)
             
             for (prop1_node_id, prop2_node_id), prediction in zip(batch_pair_ids, predictions):
                 if prediction in ['RA', 'MA', 'CA']:
                     self.aif_obj.add_component("argument_relation", prediction, prop1_node_id, prop2_node_id)
                     
-	def segmenter_default(self,):
-		"""The default segmenter takes xAIF, segments the texts in each L-nodes,
-		introduce new L-node entries for each of the new segements and delete the old L-node entries
-		"""
-		xAIF_input = self.get_aif()
-		logging.info(f"xAIF data:  {xAIF_input}, {self.file_obj}")  
-		xaif_obj = xaif.AIF(xAIF_input)
-		is_json_file = self.is_valid_json()
-		if is_json_file:				
-			json_dict = xaif_obj.aif
-			if self.is_valid_json_aif(json_dict):
-				nodes = json_dict['nodes']		
-				for nodes_entry in nodes:
-					node_id = nodes_entry['nodeID']
-					node_text = nodes_entry['text']
-					type = nodes_entry['type']
-					if type == "L":
-						segments = self.get_segments(node_text)
-						segments = [seg.strip() for seg in segments if len(seg.strip()) > 0]
-						if len(segments) > 1:							
-							xaif_obj.add_component("segment", node_id, segments)										
-
-
-				return xaif_obj.xaif
-			else:
-				return("Invalid json-aif")
-		else:
-			return("Invalid input")
