@@ -106,8 +106,10 @@ class LLMSegmenter():
                         try:
                             segments = json.loads(response_cleaned)  # Expecting JSON list
                         except ValueError as e:
+                            logging.info(f"Error data ---------------:  {response_cleaned}, {response_cleaned}")  
                             segments = response_cleaned.split("\n")
-                        if len(segments) > 1:							
+                        if len(segments) > 1:	
+                            segments = [seg.strip() for seg in segments if len(seg.strip()) > 0]						
                             xaif_obj.add_component("segment", node_id, segments)										
 
 
