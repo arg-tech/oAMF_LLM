@@ -11,8 +11,8 @@ def segmenter():
     """Segments an argumentative paragraph into discourse units."""
 
     file_obj = request.files['file']
-    segmenter = LLMSegmenter(file_obj)
-    result=segmenter.segmenter_default()
+    Segmenter = LLMSegmenter(file_obj)
+    result=Segmenter.segmenter_default()
     return result
 
 @app.route('/relation_identifier', methods=['POST'])
