@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  oAMF_LLM:
+    container_name: oAMF_LLM  
+    build: .
+    ports:
+      - "5030:5030"
+    restart: always
