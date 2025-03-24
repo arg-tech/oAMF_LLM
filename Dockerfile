@@ -13,10 +13,7 @@ RUN curl -fsSL https://ollama.ai/install.sh | sh
 # Add Ollama to PATH (for safety)
 ENV PATH="/root/.ollama/bin:$PATH"
 
-# Download the DeepSeek-r1:7b model
-RUN ollama pull deepseek-r1:7b
-
-# Copy application files
+# Copy application files first (to avoid unnecessary rebuild)
 COPY . .
 
 # Install Python dependencies
@@ -25,5 +22,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Expose the Flask port
 EXPOSE 5030
 
-# Start Ollama service and Flask app
-CMD ollama serve & python app.py
+# Start Ollama service in background and download the DeepSeek-r1:7b model
+CMD ollama serve & sleep 10 && ollama pull deepseek-r1:7b && python app.py
