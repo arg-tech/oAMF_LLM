@@ -86,12 +86,30 @@ class LLMSegmenter():
                     node_text = nodes_entry['text']
                     type = nodes_entry['type']
                     if type == "L":
+
+                        # Refined prompt to DeepSeek
                         prompt = f"""
-                        Segment the following paragraph into discourse units. 
-                        Provide the result as a JSON list of segments. Do not provide any explanations.
+                        Segment the following text into argumentative discourse units (ADUs). Each ADU represents a distinct argument or claim within the text. Do not include explanations or thinking steps. Only provide the final list of argumentative discourse units as a JSON array.
+
+                        Input paragraph: {node_text}
+
+                        Ensure that each segment is a complete argument, claim, or supporting point, and divide the text accordingly into logical parts. 
                         
-                        Paragraph: {node_text}
+
+                        # Example Input:
+                        "Climate change is a major threat to our planet. It leads to rising sea levels, extreme weather events, and loss of biodiversity. Governments must take action by reducing carbon emissions and transitioning to renewable energy. Individuals should also contribute by adopting sustainable practices in their daily lives."
+
+                        # Expected Output (this is just for reference)
+                        [
+                            "Climate change is a major threat to our planet.",
+                            "It leads to rising sea levels, extreme weather events, and loss of biodiversity.",
+                            "Governments must take action by reducing carbon emissions and transitioning to renewable energy.",
+                            "Individuals should also contribute by adopting sustainable practices in their daily lives."
+                        ]
                         """
+
+
+
                         response = self.get_segments(prompt)
                         logging.info(f"xAIF data:  {response}, {response}")  
     
