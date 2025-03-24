@@ -1,0 +1,7 @@
+flask
+flask_uploads
+xaif_eval==0.0.9
+markdown2
+ollama
+pandas
+
