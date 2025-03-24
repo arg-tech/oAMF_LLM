@@ -2,6 +2,11 @@ import ollama
 import json
 from xaif_eval import xaif
 from itertools import combinations
+import logging
+import re
+
+logging.basicConfig(datefmt='%H:%M:%S',
+                    level=logging.DEBUG)
 
 
 class LLMArgumentStructure:
@@ -101,13 +106,16 @@ class LLMArgumentStructure:
                             1. {pair1}
                             2. {pair2}
                             
-                            Classify their relationship as one of the following: 'Support', 'Attack', 'Rephrase', or 'None'.
-                            Provide the classification as a JSON object in the format {{"relation": label}}.
+                            Classify their argument relationship as one of the following: 'Support' if one is support the other, 'Attack' if one attacks the other, 'Rephrase' if one rephrase the other, or 'None' if no argument relation exists.
+                            Do not rephrase, or summarise, the existing text as it is. Do not also add any text other than what is provided.
+                            Do not include explanations or thinking steps. 
+                    
+                            Provide the classification as a JSON object in the format: relation: relation_type.
                             """
                         
                         response = self.llm_model(prompt)
-                        print(response)
-                        
+                        logging.info(f"xAIF data:  {response}, {response}")  
+                        response_cleaned = re.sub(r'<think>.*?</think>', '', response, flags=re.DOTALL)
                         
                         try:
                             relation = json.loads(response).get("relation", "Unknown")
