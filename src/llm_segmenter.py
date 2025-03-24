@@ -2,7 +2,7 @@ import ollama
 import json
 from xaif_eval import xaif
 from itertools import combinations
-import re
+
 
 
 
@@ -89,29 +89,21 @@ class LLMSegmenter():
 
                         # Refined prompt to DeepSeek
                         prompt = f"""
-                        Segment the following text into argumentative discourse units (ADUs). Each ADU represents a distinct argument or claim within the text. Do not include explanations or thinking steps. Only provide the final list of argumentative discourse units as a JSON array.
+                        Segment the following text into argumentative discourse units (ADUs). Each ADU represents a distinct argument or claim within the text. Do not include explanations or thinking steps. Only provide the final list of argumentative discourse units as a 1D JSON array.
 
                         Input paragraph: {node_text}
 
-                        Ensure that each segment is a complete argument, claim, or supporting point, and divide the text accordingly into logical parts. 
+                        Ensure that each segment is a complete argumentative claim, or premise, and divide the text accordingly into logical parts. 
                     
                         """
 
-
-
-
                         response = self.get_segments(prompt)
-                        logging.info(f"Response data:  {response}, {response}")
-
-                        # Remove everything between <thinck> and </thinck>, including the tags themselves
-                        response_cleaned = re.sub(r'<think>.*?</think>', '', response, flags=re.DOTALL)
-
+                        logging.info(f"xAIF data:  {response}, {response}")  
+    
                         try:
-                            segments = json.loads(response_cleaned)  # Expecting JSON list
+                            segments = json.loads(response)  # Expecting JSON list
                         except ValueError as e:
-                            segments = response_cleaned.split("\n")
-
-
+                            segments = response.split("\n")
                         segments = [seg.strip() for seg in segments if len(seg.strip()) > 0]
                         if len(segments) > 1:							
                             xaif_obj.add_component("segment", node_id, segments)										
