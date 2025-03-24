@@ -94,13 +94,13 @@ class LLMSegmenter():
 
                         Input paragraph: {node_text}
 
-                        Ensure that each segment is a complete argumentative claim, or premise, and divide the text accordingly into logical parts. 
+                        Ensure that each segment is a complete argumentative claim, or premise, and divide the text accordingly into logical parts. Do not rephrase, or summarise, you have to segment the existing text as it is.
                     
                         """
 
                         response = self.get_segments(prompt)
                         logging.info(f"xAIF data:  {response}, {response}")  
-                        response_cleaned = re.sub(r'<thinck>.*?</thinck>', '', response, flags=re.DOTALL)
+                        response_cleaned = re.sub(r'<think>.*?</think>', '', response, flags=re.DOTALL)
     
                         try:
                             segments = json.loads(response_cleaned)  # Expecting JSON list
