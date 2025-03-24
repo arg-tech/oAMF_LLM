@@ -109,8 +109,10 @@ class LLMSegmenter():
                             logging.info(f"Error data ---------------:  {response_cleaned}, {response_cleaned}")  
                             segments = response_cleaned.split("\n")
                         if len(segments) > 1:	
-                            segments = [seg.strip() for seg in segments if len(seg.strip()) > 0]						
-                            xaif_obj.add_component("segment", node_id, segments)										
+                            segments = [seg.strip() for seg in segments if len(seg.strip()) > 0]
+                            for segement in segments:
+                                if 	len(segement) > 1:					
+                                    xaif_obj.add_component("segment", node_id, segement)										
 
 
                 return xaif_obj.xaif
