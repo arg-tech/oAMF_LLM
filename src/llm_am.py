@@ -16,7 +16,7 @@ class LLMArgumentStructure:
         xAIF_input = self.get_aif()  
         self.aif_obj = xaif.AIF(xAIF_input)
 
-    def llm_model(self, prompt, model_name="deepseek-r1:7b"):
+    def llm_model(self, prompt, model_name="deepseek-r1:1.5b"):
         """Run deepseek-r1:7b model with a given prompt using Ollama API."""
         response = ollama.chat(model=model_name, messages=[{'role': 'user', 'content': prompt}])
         return response['message']['content'].strip()

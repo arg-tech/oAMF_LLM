@@ -29,7 +29,7 @@ class LLMSegmenter():
         self.file_obj.save(self.f_name)
         file = open(self.f_name,'r')
 
-    def llm_model(self, prompt, model_name="deepseek-r1:7b"):
+    def llm_model(self, prompt, model_name="deepseek-r1:1.5b"):
         """Run deepseek-r1:7b model with a given prompt using Ollama API."""
         response = ollama.chat(model=model_name, messages=[{'role': 'user', 'content': prompt}])
         return response['message']['content'].strip()
@@ -88,16 +88,16 @@ class LLMSegmenter():
                     if type == "L":
                         prompt = f"""
                         Segment the following paragraph into discourse units. 
-                        Provide the result as a JSON list of segments.
+                        Provide the result as a JSON list of segments. Do not provide any explanations.
                         
                         Paragraph: {node_text}
                         """
                         response = self.get_segments(prompt)
-                        print(response)
+                        logging.info(f"xAIF data:  {response}, {response}")  
     
                         try:
                             segments = json.loads(response)  # Expecting JSON list
-                        except json.JSONDecodeError:
+                        except ValueError as e:
                             segments = response.split("\n")
                         segments = [seg.strip() for seg in segments if len(seg.strip()) > 0]
                         if len(segments) > 1:							
