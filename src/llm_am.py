@@ -146,7 +146,7 @@ class LLMArgumentStructure:
                         
                         relation = self.extract_relation(response)
                       
-                        logging.info(f"response ============================:  {relation}, {relation}") 
+                        logging.info(f"Relation is ============================:  {relation}") 
 
                         if relation in ['Support', 'support']:
                             predictions = "RA"
@@ -157,9 +157,9 @@ class LLMArgumentStructure:
                         else:
                             predictions = "None"
 
-                        for prediction in predictions:
-                            if prediction in ['RA','MA','CA']:
-                                self.aif_obj.add_component("argument_relation", prediction, prop1_node_id, prop2_node_id)
+                        #for prediction in predictions:
+                        if predictions in ['RA','MA','CA']:
+                            self.aif_obj.add_component("argument_relation", predictions, prop1_node_id, prop2_node_id)
                             
 
 
