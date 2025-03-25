@@ -83,9 +83,6 @@ class LLMArgumentStructure:
 
         except (ValueError, json.JSONDecodeError):
             pass  # If JSON parsing fails, continue alternative extraction
-                # Handle "relation:label" format
-        if '"relation":' in response_cleaned:
-            relation = response_cleaned.split(":", 1)[1].strip()
 
         return relation
 
