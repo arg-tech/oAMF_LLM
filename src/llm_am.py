@@ -142,13 +142,11 @@ class LLMArgumentStructure:
                             """
                         
                         response = self.llm_model(prompt)
-                        logging.info(f"xAIF data:  {response}, {response}")  
-                        response_cleaned = self.extract_relation(response)
                         
-                        try:
-                            relation = json.loads(response).get("relation", "Unknown")
-                        except ValueError as e:
-                            relation = response
+                        relation = self.extract_relation(response)
+                        logging.info(f"response ---------------------------------------------------:  {relation}, {relation}")  
+                        
+
                         if relation =='Support':
                             predictions = "RA"
                         elif relation == 'Attack':
