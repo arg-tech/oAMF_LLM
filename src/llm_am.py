@@ -148,11 +148,11 @@ class LLMArgumentStructure:
                       
                         logging.info(f"response ============================:  {relation}, {relation}") 
 
-                        if relation =='Support':
+                        if relation in ['Support', 'support']:
                             predictions = "RA"
-                        elif relation == 'Attack':
+                        elif relation in ['Attack','attack']:
                             predictions = "CA"
-                        elif relation == 'Rephrase':
+                        elif relation in ['Rephrase','rephrase']:
                             predictions = "MA"
                         else:
                             predictions = "None"
