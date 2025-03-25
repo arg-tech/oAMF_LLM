@@ -24,3 +24,5 @@ EXPOSE 5030
 
 # Start Ollama service in background and download the DeepSeek-r1:7b model
 CMD ollama serve & sleep 10 && ollama pull deepseek-r1:1.5b && python main.py
+
+
