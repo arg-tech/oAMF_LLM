@@ -59,6 +59,7 @@ class LLMArgumentStructure:
     def extract_relation(self, response):
         # Remove <think> tags and their content
         response_cleaned = re.sub(r'<think>.*?</think>', '', response, flags=re.DOTALL)
+        logging.info(f"response_cleaned ============================:  {response_cleaned}, {response_cleaned}") 
 
         try:
             # Try parsing as JSON
@@ -145,7 +146,7 @@ class LLMArgumentStructure:
                         
                         relation = self.extract_relation(response)
                       
-                        logging.info(f"response ============================:  {response}, {response}") 
+                        logging.info(f"response ============================:  {relation}, {relation}") 
 
                         if relation =='Support':
                             predictions = "RA"
